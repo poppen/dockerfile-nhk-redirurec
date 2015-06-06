@@ -9,7 +9,7 @@ CHANNELS = {
   FM: "mms://a52.l12993346051.c129933.g.lm.akamaistream.net/D/52/129933/v0001/reflector:46051"
 }
 
-class RajiruRec < Thor
+class RadiruRec < Thor
   option(:channel, :required => true)
   option(:prefix, :required => true)
   option(:duration, :default => 15, :type => :numeric)
@@ -27,4 +27,4 @@ class RajiruRec < Thor
   end
 end
 
-RajiruRec.start(ARGV)
+RadiruRec.start(ARGV)
