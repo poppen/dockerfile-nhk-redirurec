@@ -19,11 +19,16 @@ class RadiruRec < Thor
   def rec
     now = DateTime.now
     file_name = "#{options[:prefix]}-#{now.strftime('%Y-%02m-%02d-%02H-%02M')}.mp3"
-    dest_file = File.join(options[:directory], file_name)
+    dest_file = File.join('/tmp', file_name)
 
     recording_time = options[:duration] * 60 + 30
 
     `/usr/bin/vlc -I rc #{CHANNELS[options[:channel].to_sym]} :sout='#transcode{acodec=mp3}:std{access=file,mux=raw,dst=#{dest_file}}' --run-time #{recording_time} vlc://quit`
+    if $?.exitstatus == 0
+      FileUtils.move(dest_file, File.join(options[:directory], file_name))
+    else
+      FileUtils.rm(dest_file)
+    end
   end
 end
 
